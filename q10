@@ -1,0 +1,41 @@
+library(dplyr)
+df<-data.frame(
+  EMPID=c(101,102,103,104,105),
+  Name = c("John","Peter","Bob","Simbaa","Jitender"),
+  Age = c(25,30,23,28,65),
+  Salary = c(30000,40000,12000,65000,22000),
+  Department = c("Sales","QualityControl","IT","Finance","HR")
+)
+
+filtered_data<-filter(df,Age>25)
+selected_columns<-select(df,EMPID,Name,Salary)
+
+mutated_data<-mutate(df,Salary_Adjusted=Salary*1.1)
+grouped_data<-group_by(df,Department)
+summarized_data<-summarize(grouped_data,
+                           Avg_sal = mean(Salary),Max_age=max(Age))
+
+arranged_data<-arrange(df,desc(Salary))
+df2<-data.frame(
+  EMPID = c(101,103,105),
+  Bonus = c(12000,3000,2000)
+)
+
+joined_data<-left_join(df,df2,by="EMPID")
+
+print(filtered_data)
+print("\n")
+print(selected_columns)
+print("\n")
+print(mutated_data)
+print("\n")
+print(selected_columns)
+print("\n")
+print(mutated_data)
+print("\n")
+print(summarized_data)
+print("\n")
+print(arranged_data)
+print("\n")
+print(joined_data)
+print("\n")
