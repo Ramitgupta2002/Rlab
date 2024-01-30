@@ -1,0 +1,58 @@
+products <- list(
+  list(name = "apple", price = 120),
+  list(name = "pineapple", price = 40),
+  list(name = "berry", price = 80),
+  list(name = "strawberry", price = 50)
+)
+
+shopping_cart <- list()
+result <- 0
+
+add_item <- function(shopping_cart, product, price, quantity) {
+  shopping_cart[[product]] <- c(price, quantity)
+  return(shopping_cart)
+}
+
+insert_values <- function(shopping_cart) {
+  product <- readline("Enter the name of the product: ")
+  quantity <- as.integer(readline("Enter the quantity: "))
+  price <- as.numeric(readline("Enter the price: "))
+  shopping_cart <- add_item(shopping_cart, product, price, quantity)
+  return(shopping_cart)
+}
+
+# Print available products
+for (product in products) {
+  cat(sprintf("%s: Price %s\n", product$name, product$price))
+}
+
+n <- as.integer(readline("Enter the number of products to be entered: "))
+for (i in 1:n) {
+  shopping_cart <- insert_values(shopping_cart)
+}
+
+# Print the final shopping cart
+for (key in names(shopping_cart)) {
+  value <- shopping_cart[[key]]
+  cat(sprintf("%s : Price : %s, Quantity : %s\n", key, value[1], value[2]))
+}
+
+sub_total <- function(shopping_cart) {
+  result <- 0
+  if (length(shopping_cart) == 0) {
+    print("The shopping cart is empty.")
+  } else {
+    cat("\nIndividual Costs:\n")
+    for (key in names(shopping_cart)) {
+      value <- shopping_cart[[key]]
+      item_cost <- value[1] * value[2]
+      cat(sprintf("%s : %s\n", key, item_cost))
+      result <- result + item_cost
+    }
+    cat(sprintf("\nThe total cost is %s\n", result))
+    result <- result + result * 0.08
+    cat(sprintf("The total cost after tax is %s\n", result))
+  }
+}
+
+sub_total(shopping_cart)
