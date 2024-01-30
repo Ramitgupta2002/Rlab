@@ -1,0 +1,29 @@
+check_fine<-function(days){
+  if(days<=7){
+    fine<-0
+  }else if(days<=30){
+    fine_per_day<-2
+    fine<-(days-7)*fine_per_day
+  }
+  else{
+    fine_cap<-50
+    fine<-fine_cap
+  }
+  return(fine)
+}
+
+days<-as.integer(readline("ENter the number of days"))
+
+fine_amount<-check_fine(days)
+
+cat("Fine Amount:", fine_amount, "\n")
+if (fine_amount == 0) {
+  cat("No fine. Thank you for returning the book on time!\n")
+} else {
+  if (days> 30) {
+    cat("Fine exceeds the maximum cap. Please contact the
+library.\n")
+  } else {
+    cat("Please pay the fine within the specified period.\n")
+  }
+}
