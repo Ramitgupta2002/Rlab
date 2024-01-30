@@ -1,0 +1,44 @@
+num_students<-10
+num_courses<-5
+
+student_names<-c("John","Jack","Arvind","Jigar","Jayshree","Dinesh","Durga",
+                 "Davin","Ramit","Rohan")
+
+course_marks<-matrix(c(
+  65,64,88,87,66,87,88,32,45,90,
+  77,67,56,100,76,87,91,32,22,54,
+  76,44,55,33,88,74,55,98,88,20,
+  65,55,10,90,93,39,55,48,88,90,
+  44,43,33,29,59,55,65,60,55,91
+),nrow=num_students,byrow=TRUE)
+
+student_records<-list()
+
+for(student_index in 1:num_students){
+  student_name<-student_names[student_index]
+  
+  total_marks<-sum(course_marks[student_index,])
+  average_marks<-total_marks/num_courses
+  
+  grade<-ifelse(average_marks>=90,"A",
+                ifelse(average_marks>=80,"B",
+                       ifelse(average_marks>=70,"C",
+                              ifelse(average_marks>=60,"D","F"))))
+  
+  student_record<-list(
+    name = student_name,
+    marks = course_marks[student_index,],
+    total = total_marks,
+    average = average_marks,
+    grade = grade
+  )
+  student_records<-c(student_records,list(student_record))
+}
+
+for(student_record in student_records){
+  cat("\nName:", student_record$name, "\n")
+  cat("Marks:", student_record$marks, "\n")
+  cat("Total Marks:", student_record$total, "\n")
+  cat("Average Marks:", student_record$average, "\n")
+  cat("Grade:", student_record$grade, "\n")
+}
