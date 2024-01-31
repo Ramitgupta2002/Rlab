@@ -1,0 +1,72 @@
+library(dplyr)
+
+student_data<-data.frame(
+  Name = character(0),
+  Math_score = numeric(0),
+  Science_score = numeric(0),
+  History_score = numeric(0),
+  Attendance = numeric(0),
+  USN = character(0)
+)
+
+add_student<-function(name,math_score,science_score,history_score,attendance,
+                      usn){
+  new_student<-data.frame(
+    Name = name,
+    Math_score = math_score,
+    Science_score = science_score,
+    History_score = history_score,
+    Attendance = attendance,
+    USN = usn
+  )
+  student_data<<-bind_rows(student_data,new_student)
+  cat("Student information added!")
+}
+
+calculate_average_scores<-function(){
+  avg_score<-student_data %>%
+    mutate(Average_score = (Math_score+Science_score+History_score)/3) %>%
+    select(Name,Average_score)
+  return(avg_score)
+}
+
+identify_low_attendance<-function(threshold){
+  low_attendance<-student_data %>%
+    filter(Attendance<threshold) %>%
+    select(Name,Attendance)
+  return (low_attendance)
+}
+
+generate_report<-function(){
+  avg_scores<-calculate_average_scores()
+  low_attendance<-identify_low_attendance(70)
+  
+  report<-merge(avg_scores,low_attendance,by =c("Name","USN"),all=TRUE)
+  report$Attendance[is.na(report$Attendance)]<-100
+  cat("Performance report:\n")
+  print(report)
+}
+while(TRUE){
+  cat("\n1.ADD STUDENT\n2.GENERATE REPORT\n3.EXIT \n")
+  choice<-as.integer(readline("Enter your choice :"))
+  
+  if(choice==1){
+    name<-readline("Enter student name :")
+    math_score<-as.numeric(readline("Enter math score :"))
+    science_score<-as.numeric(readline("Enter science score :"))
+    history_score<-as.numeric(readline("Enter history score :"))
+    attendance<-as.numeric(readline("enter attendance percentage :"))
+    usn<-readline("Enter the USN :")
+    add_student(name,math_score,science_score,history_score,attendance,usn)
+  }
+  else if(choice==2){
+    generate_report()
+  }
+  else if(choice==3){
+    cat("exiting the program.Goodbye!\n")
+    break
+  }
+  else{
+    cat("Invalid choice.Please try again.\n")
+  }
+}
